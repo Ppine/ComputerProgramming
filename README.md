@@ -5,3 +5,4 @@
 2025-1학기 컴공 전공수업
 
 commit test
+ttt
