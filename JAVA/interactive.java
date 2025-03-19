@@ -6,7 +6,7 @@ public class interactive{
         System.out.println("1");
         int n=1;
         for(;;){
-            // System.out.println("n++");
+            // System.out.println("n++")
             n++;
             String temp = String.valueOf(n);
             if(n%2==1){
