@@ -1,6 +1,7 @@
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.io.PrintWriter;
+//제출본
 
 class elements{
     String name;
@@ -147,7 +148,7 @@ public class SMM{
     }
     
     static void exportAllMembersToCSV() {
-        System.out.print("Enter file name (e.g., members.csv): ");
+        System.out.print("Enter file name (ex: members.csv): ");
         String fileName = scanner.nextLine();
 
         try (PrintWriter pw = new PrintWriter(fileName)) {
@@ -165,7 +166,7 @@ public class SMM{
 
             System.out.println("CSV file saved as: " + fileName);
         } catch (Exception e) {
-            System.out.println("Error saving file: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
         }
     }
 
