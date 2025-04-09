@@ -1,6 +1,5 @@
 import java.util.Scanner;
 import java.util.ArrayList;
-import java.io.PrintWriter;
 
 class elements{
     String name;
@@ -12,12 +11,7 @@ class elements{
         this.birth_year = birth_year;
         this.sex = sex;
     }
-
-    public void displayInfo() {
-        System.out.println(name + ", " + birth_year + ", " + sex);
-    }
 }
-
 
 class Staff_element extends elements{
     int year_join;
@@ -32,9 +26,9 @@ class Staff_element extends elements{
 
 class Student_element extends elements{
     int year_admission;
-    double grade;
+    float grade;
 
-    public Student_element(String name, int birth_year, boolean sex, int year_admission, double grade){
+    public Student_element(String name, int birth_year, boolean sex, int year_admission, float grade){
         super(name, birth_year, sex);
         this.year_admission = year_admission;
         this.grade = grade;
@@ -53,11 +47,10 @@ public class SMM{
             System.out.println("4. Remove Student");
             System.out.println("5. List All Staff");
             System.out.println("6. List All Students");
-            System.out.println("7. Export all members to CSV");
             System.out.println("0. Exit");
             System.out.print("Choose: ");
             int choice = scanner.nextInt();
-            scanner.nextLine();
+            scanner.nextLine(); // consume newline
 
             switch (choice) {
                 case 1 -> addStaff();
@@ -66,7 +59,6 @@ public class SMM{
                 case 4 -> removeStudent();
                 case 5 -> listStaff();
                 case 6 -> listStudents();
-                case 7 -> exportAllMembersToCSV();
                 case 0 -> {
                     System.out.println("Program exited.");
                     return;
@@ -81,18 +73,14 @@ public class SMM{
         String name = scanner.nextLine();
         System.out.print("Birth Year: ");
         int birthYear = scanner.nextInt();
-        scanner.nextLine();
         System.out.print("Sex (M = true/F = false): ");
-        String sex = scanner.nextLine();
+        boolean sex = scanner.nextBoolean();
         System.out.print("Year of Joining: ");
         int year = scanner.nextInt();
         System.out.print("Salary: ");
         int salary = scanner.nextInt();
-        scanner.nextLine();
 
-        boolean boolsex = Change_sex(sex);
-
-        staffList.add(new Staff_element(name, birthYear, boolsex, year, salary));
+        staffList.add(new Staff_element(name, birthYear, sex, year, salary));
         System.out.println("Staff added.");
     }
 
@@ -101,18 +89,14 @@ public class SMM{
         String name = scanner.nextLine();
         System.out.print("Birth Year: ");
         int birthYear = scanner.nextInt();
-        scanner.nextLine();
         System.out.print("Sex (M = true/F = false): ");
-        String sex = scanner.nextLine();
+        boolean sex = scanner.nextBoolean();
         System.out.print("Year of Admission: ");
         int year = scanner.nextInt();
         System.out.print("Grade: ");
         double grade = scanner.nextDouble();
-        scanner.nextLine();
 
-        boolean boolsex = Change_sex(sex);
-
-        studentList.add(new Student_element(name, birthYear, boolsex, year, grade));
+        studentList.add(new Student_element(name, birthYear, sex, year, grade));
         System.out.println("Student added.");
     }
 
@@ -144,36 +128,5 @@ public class SMM{
             return;
         }
         for (Student_element s : studentList) s.displayInfo();
-    }
-    
-    static void exportAllMembersToCSV() {
-        System.out.print("Enter file name (e.g., members.csv): ");
-        String fileName = scanner.nextLine();
-
-        try (PrintWriter pw = new PrintWriter(fileName)) {
-            pw.println("Category,Name,BirthYear,Sex,JoinOrAdmissionYear,SalaryOrGrade");
-
-            for (Staff_element s : staffList) {
-                pw.printf("Staff,%s,%d,%s,%d,%d%n",
-                        s.name, s.birth_year, s.sex ? "M" : "F", s.year_join, s.salary);
-            }
-
-            for (Student_element s : studentList) {
-                pw.printf("Student,%s,%d,%s,%d,%.2f%n",
-                        s.name, s.birth_year, s.sex ? "M" : "F", s.year_admission, s.grade);
-            }
-
-            System.out.println("CSV file saved as: " + fileName);
-        } catch (Exception e) {
-            System.out.println("Error saving file: " + e.getMessage());
-        }
-    }
-
-    static boolean Change_sex(String sex){
-
-        sex = sex.trim().toLowerCase();
-
-        return sex.equals("male") || sex.equals("m")|| sex.equals("true") || sex.equals("t");
-        
     }
 }
